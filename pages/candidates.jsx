@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+
 const candidates = [
   { id: 'firm', name: '딱딱한 복숭아' },
   { id: 'soft', name: '물렁한 복숭아' },
