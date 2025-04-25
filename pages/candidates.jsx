@@ -8,37 +8,42 @@ const candidates = [
   { id: 'nope', name: '복숭아 안먹음' }
 ];
 
-const [selected, setSelected] = useState('');
+export default function CandidatesPage() {
+  const router = useRouter();
+  const { code } = router.query;
+  const [selected, setSelected] = useState('');
 
-const handleSubmit = async () => {
-  const res = await fetch('/api/vote', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code, vote: selected })
-  });
+  const handleSubmit = async () => {
+    const res = await fetch('/api/vote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, vote: selected })
+    });
 
-  const data = await res.json();
-  if (data.success) router.push('/result');
-  else alert(data.message || '오류 발생');
-};
+    const data = await res.json();
+    if (data.success) router.push('/result');
+    else alert(data.message || '오류 발생');
+  };
 
-return (
-  <div>
-    <h1>복숭아 선거 🍑</h1>
-    {candidates.map((c) => (
-      <div key={c.id}>
-        <label>
-          <input
-            type="radio"
-            name="peach"
-            value={c.id}
-            checked={selected === c.id}
-            onChange={() => setSelected(c.id)}
-          />
-          {c.name}
-        </label>
-      </div>
-    ))}
-    <button onClick={handleSubmit} disabled={!selected}>투표하기</button>
-  </div>
-);
+  return (
+    <div>
+      <h1>복숭아 선거 🍑</h1>
+      {candidates.map((c) => (
+        <div key={c.id}>
+          <label>
+            <input
+              type="radio"
+              name="peach"
+              value={c.id}
+              checked={selected === c.id}
+              onChange={() => setSelected(c.id)}
+            />
+            {c.name}
+          </label>
+        </div>
+      ))}
+      <button onClick={handleSubmit} disabled={!selected}>투표하기</button>
+    </div>
+  );
+}
+
